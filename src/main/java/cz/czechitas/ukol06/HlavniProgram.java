@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Hlaví třída pro aplikaci Svátky.
+ * Hlavní třída pro aplikaci Svátky.
  */
 public class HlavniProgram {
     /**
