@@ -4,6 +4,7 @@ package cz.czechitas.ukol06;
 import cz.czechitas.ukol06.svatky.SvatkySluzba;
 
 import java.io.IOException;
+import java.time.MonthDay;
 import java.util.List;
 
 /**
@@ -33,6 +34,16 @@ public class HlavniProgram {
             System.out.println("Dnes mají svátek:");
             svatkyDnes.forEach((svatek) -> System.out.printf("- %s", svatek).println());
         }
-    }
 
+    SvatkySluzba seznamDniBezSvatku;
+    // Get dates without any names
+    List<MonthDay> dniBezSvatku = seznamSvatku.seznamDniBezSvatku();
+        if (dniBezSvatku.isEmpty()) {
+        System.out.println("Neexistují žádné dny bez svátků.");
+    } else {
+        System.out.println("Dny bez svátků:");
+        dniBezSvatku.forEach((date) -> System.out.printf("- %s", date).println());
+    }
 }
+}
+
