@@ -22,7 +22,6 @@ public class SvatkySluzba {
 
     public SvatkySluzba() throws IOException {
         //načíst seznam svátků ze souboru svatky.json
-        String jsonData = Files.readString(cestaKDatum);
         seznamSvatku = objectMapper.readValue(cestaKDatum.toFile(), SeznamSvatku.class);
     }
 
