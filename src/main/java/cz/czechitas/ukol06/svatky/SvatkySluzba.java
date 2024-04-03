@@ -1,14 +1,19 @@
 package cz.czechitas.ukol06.svatky;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Month;
 import java.time.MonthDay;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -22,7 +27,9 @@ public class SvatkySluzba {
 
     public SvatkySluzba() throws IOException {
         //načíst seznam svátků ze souboru svatky.json
-        seznamSvatku = objectMapper.readValue(cestaKDatum.toFile(), SeznamSvatku.class);
+        String jsonData = Files.readString(cestaKDatum);
+        seznamSvatku = objectMapper.readValue(jsonData, new TypeReference<SeznamSvatku>() {
+        });
     }
 
     public List<String> vyhledatSvatkyDnes() {
@@ -43,22 +50,23 @@ public class SvatkySluzba {
     }
 
     public List<MonthDay> seznamDniBezSvatku() {
-        List<MonthDay> dniBezSvatku = new ArrayList<>();
+        List<MonthDay> dnyBezSvatku = new ArrayList<>();
 
         // Získat seznam všech dní
-        List<Svatek> seznamDnuBezSvatku = seznamSvatku.getSvatky();
-
-        // Projít všechny dny a zkontrolovat, zda mají svátek
-        for (Svatek svatek : seznamDnuBezSvatku) {
-            MonthDay day = svatek.getDen();
-            if (vyhledatSvatkyKeDni(day).isEmpty()) {
-                dniBezSvatku.add(day);
-            }
+        Set<MonthDay> dnyCoMajiSvatek = new HashSet<>();
+        for (Svatek svatek : seznamSvatku.getSvatky()) {
+            dnyCoMajiSvatek.add(svatek.getDen());
         }
 
-        return dniBezSvatku;
+        for (Month month : Month.values()) {
+            int dnyVMesici = month.length(false);
+            for (int i = 1; i <= dnyVMesici; i++) {
+                MonthDay den = MonthDay.of(month, i);
+                if (!dnyCoMajiSvatek.contains(den)) {
+                    dnyBezSvatku.add(den);
+                }
+            }
+        }
+        return dnyBezSvatku;
     }
-
-
 }
-

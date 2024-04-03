@@ -35,15 +35,16 @@ public class HlavniProgram {
             svatkyDnes.forEach((svatek) -> System.out.printf("- %s", svatek).println());
         }
 
-    SvatkySluzba seznamDniBezSvatku;
-    // Get dates without any names
-    List<MonthDay> dniBezSvatku = seznamSvatku.seznamDniBezSvatku();
+        // Create an instance of SvatkySluzba
+        SvatkySluzba seznamDniBezSvatku = new SvatkySluzba();
+
+        // Get dates without any names
+        List<MonthDay> dniBezSvatku = seznamDniBezSvatku.seznamDniBezSvatku();
         if (dniBezSvatku.isEmpty()) {
-        System.out.println("Neexistují žádné dny bez svátků.");
-    } else {
-        System.out.println("Dny bez svátků:");
-        dniBezSvatku.forEach((date) -> System.out.printf("- %s", date).println());
+            System.out.println("Neexistují žádné dny bez svátků.");
+        } else {
+            System.out.println("Dny bez svátků:");
+            dniBezSvatku.forEach((date) -> System.out.printf("- %s", date).println());
+        }
     }
 }
-}
-
